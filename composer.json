@@ -1,0 +1,5 @@
+{
+    "require" : {
+        "nicmart/string-template": "dev-master"
+    }
+}
