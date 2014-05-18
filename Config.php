@@ -4,7 +4,6 @@ namespace Lib;
 
 class Config
 {
-    const EXT       = 'ini';
     const ENV_DEV   = 'dev';
     const ENV_STG   = 'stg';
     const ENV_PRD   = 'prd';
@@ -17,7 +16,7 @@ class Config
     private function __construct()
     {
         /* singleton */
-        defined('LIB_CONFIG_PATH') || define('LIB_CONFIG_PATH', './application/config/');        
+        defined('LIB_CONFIG_PATH') || define('LIB_CONFIG_PATH', './application/config');        
         
         $this->data = [];
     }
@@ -35,7 +34,7 @@ class Config
         self::$env = $env;
     }
     
-    public static function get($cfg_file = 'cfg')
+    public static function get($cfg_file = 'cfg', $ext = 'ini')
     {
         $cfg = self::instance();
         
@@ -44,7 +43,16 @@ class Config
         
         $env = (self::$env) ? self::$env . '/' : '';
         
-        $cfg->data[$cfg_file] = parse_ini_file(LIB_CONFIG_PATH . $env . $cfg_file . '.' . self::EXT, true);
+        switch ($ext)
+        {
+            case 'ini':
+                $cfg->data[$cfg_file] = parse_ini_file(LIB_CONFIG_PATH . '/' . $env . $cfg_file . '.ini', true);
+                break;
+            case 'php':
+                $cfg->data[$cfg_file] = require(LIB_CONFIG_PATH . '/' . $env . $cfg_file . '.php');
+        }
+        
+        
         return $cfg->data[$cfg_file];
     }
 }

@@ -55,7 +55,7 @@ class Loader implements iLoader
 	{
 		$file  = '';
 		$namespace = '';
-
+		
 		/*
 		 * If we have a package path, then we can just validate the class
 		 * by checking the package/ns prefix.
@@ -64,13 +64,13 @@ class Loader implements iLoader
 		 * system calls.
 		 */
 		if ($this->package)
-		{
+		{		
 			// let's make sure we are in the right namespace
 			if (strpos($class, $this->package) !== 0)
 			{
 				return;
 			}
-		
+
 			// take out the Base NS
 			$class = substr($class, $this->package_len);
 
