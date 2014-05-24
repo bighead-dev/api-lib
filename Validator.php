@@ -90,11 +90,6 @@ class Validator
 	
 	public function add_error($field, $error)
 	{
-	    $this->addError($field, $error);
-	}
-	
-	public function addError($field, $error)
-	{	    
 	    if (!array_key_exists($field, $this->errors)) {
 	        $this->errors[$field] = [];
 	    }
@@ -102,7 +97,12 @@ class Validator
 	    $this->errors[$field][] = $error;
 	}
 	
-	public function getErrorString()
+	public function addError($field, $error)
+	{	    
+	    $this->add_error($field, $error);
+	}
+	
+	public function get_error_string()
 	{
 	    $error_s = '';
 	    
@@ -111,6 +111,10 @@ class Validator
 	    }
 	    
 	    return $error_s;
+	}
+	public function getErrorString()
+	{
+	    return $this->get_error_string();
 	}
 	
 	public function add_rules($fields)
@@ -124,6 +128,10 @@ class Validator
 		}
 	}
 	
+	public function is_valid()
+	{
+	    return !(bool) count($this->errors);
+	}
 	public function isValid()
 	{
 	    return !(bool) count($this->errors);
